@@ -1,0 +1,13 @@
+apiVersion: v1 # Kubernetes API version
+kind: Service # Kubernetes resource kind we are creating
+metadata: # Metadata of the resource kind we are creating
+  name: springboot-k8s-svc
+spec:
+  selector:
+    app: spring-boot-k8s
+  ports:
+    - protocol: "TCP"
+      port: 8090 # The port that the service is running on inside the cluster
+      targetPort: 8090 # The port your Spring Boot container is listening on
+      nodePort: 30090 # <--- ADD THIS: Fixed port to access from your Windows browser
+  type: NodePort # type of the service.
