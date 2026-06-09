@@ -37,6 +37,7 @@ pipeline {
                     withKubeConfig([credentialsId: 'k8s-config']) {
                         bat 'kubectl apply -f deployment.yaml'
                         bat 'kubectl apply -f service.yaml'
+                        bat 'kubectl apply -f hpa.yaml'
                         bat 'kubectl rollout restart deployment/spring-boot-k8s'
                     }
                 }

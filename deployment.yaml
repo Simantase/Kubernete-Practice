@@ -1,20 +1,25 @@
 apiVersion: apps/v1
-kind: Deployment # Kubernetes resource kind we are creating
+kind: Deployment
 metadata:
   name: spring-boot-k8s
 spec:
+  replicas: 1 # The HPA will instantly change this to 2 once applied
   selector:
     matchLabels:
       app: spring-boot-k8s
-  replicas: 2 # Number of replicas that will be created for this deployment
   template:
     metadata:
       labels:
         app: spring-boot-k8s
     spec:
       containers:
-        - name: spring-boot-k8s
-          image: simanta96/devops-integration:latest # <--- FIXED TO MATCH MINIKUBE
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8090 # The port that the container is running on in the cluster
+      - name: kubernete
+        image: simanta96/devops-integration:latest
+        ports:
+        - containerPort: 8090
+        # 👇 ADD THESE LINES TO YOUR DEPLOYMENT.YAML 👇
+        resources:
+          requests:
+            cpu: "200m"   # Reservation: The HPA uses this value to calculate the 70% load
+          limits:
+            cpu: "500m"   # Throttling limit
